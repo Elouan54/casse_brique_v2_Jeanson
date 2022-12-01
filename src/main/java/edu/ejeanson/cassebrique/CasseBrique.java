@@ -8,10 +8,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Random;
 
 public class CasseBrique extends Canvas {
     public final static int LARGEUR = 500;
     public final static int HAUTEUR = 600;
+
+
+    int rangeeHauteur = 7;
+    int rangeeLongueur = 10;
+    public int briquePositionY = 100;
+    int m=0;
+    public Brique[][] tableauBrique = new Brique[rangeeLongueur][rangeeHauteur];
+
+    public Balle[] tableauBalle;
 
     private Barre barre = new Barre(215,570,Color.black,70, 10);
 
@@ -21,7 +31,7 @@ public class CasseBrique extends Canvas {
         JFrame fenetre = new JFrame("Casse brique");
         //On récupère le panneau de la fenetre principale
         JPanel panneau = (JPanel) fenetre.getContentPane();
-        //On définie la hauteur / largeur de l'écran
+        //On définie la hauteur / largeur écran
         panneau.setPreferredSize(new Dimension(LARGEUR, HAUTEUR));
         setBounds(0, 0, LARGEUR, HAUTEUR);
         //On ajoute cette classe (qui hérite de Canvas) comme composant du panneau principal
@@ -60,7 +70,7 @@ public class CasseBrique extends Canvas {
         fenetre.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         fenetre.requestFocus();
 
-        //On indique que le raffraichissement de l'ecran doit être fait manuellement.
+        //On indique que le rafraîchissement écran doit être fait manuellement.
         createBufferStrategy(2);
         setIgnoreRepaint(true);
         setFocusable(false);
@@ -69,28 +79,20 @@ public class CasseBrique extends Canvas {
 
     public void demarrer() throws InterruptedException {
 
-        Balle[] tableauBalle = new Balle[1];
+        tableauBalle = new Balle[1];
 
         for (int i=0; i<tableauBalle.length; i++)
         {
             //int taille = (int)(Math.random()*40 + 10);
             int taille = 10;
-            int positionDepartX = (int)(Math.random()*(LARGEUR -taille));
-            int positionDepartY = (int)(Math.random()*(LARGEUR -taille));
-            int vitesseBalleX = (int)(Math.random()*20 -10);
-            int vitesseBalleY = (int)(Math.random()*20 - 10);
+            //int positionDepartX = (int)(Math.random()*(LARGEUR -taille));
+            //int positionDepartY = (int)(Math.random()*(LARGEUR -taille));
+            //int vitesseBalleX = (int)(Math.random()*20 -10);
+            //int vitesseBalleY = (int)(Math.random()*20 - 10);
             Color couleur = new  Color((float)Math.random(), (float)Math.random(), (float)Math.random());
 
-            tableauBalle[i]= new Balle(245,550,4, 4, taille, couleur);
+            tableauBalle[i]= new Balle(245,550,-3, -5, taille, couleur);
         }
-
-        int rangeeHauteur = 7;
-        int rangeeLongueur = 10;
-
-        Brique[][] tableauBrique = new Brique[rangeeLongueur][rangeeHauteur];
-
-        int briquePositionY = 100;
-        int m=0;
 
         for (int k=0; k<tableauBrique[2].length; k++)
         {
@@ -106,8 +108,6 @@ public class CasseBrique extends Canvas {
         }
 
         int nombreBrique = m;
-
-
 
         while(true) {
 
@@ -148,14 +148,14 @@ public class CasseBrique extends Canvas {
                             {
                                 if (balle.getPositionY() + 10 < briquePositionY) {
                                     balle.setPositionY(balle.getPositionY() - 5);
-                                    System.out.println("1,1 haut"); //haut
+                                    //System.out.println("1,1 haut"); //haut
                                     balle.rebondY();
                                     tableauBrique[j][k].disappear();
                                 }
                                 else
                                 {
                                     balle.setPositionX(balle.getPositionX() - 5);
-                                    System.out.println("1,2 gauche");//gauche
+                                    //System.out.println("1,2 gauche");//gauche
                                     balle.rebondX();
                                     tableauBrique[j][k].disappear();
                                 }
@@ -165,14 +165,14 @@ public class CasseBrique extends Canvas {
                                 if (balle.getPositionY() > 210 )
                                 {
                                     balle.setPositionX(balle.getPositionX() + 5);
-                                    System.out.println("2,1 droite"); //droite
+                                    //System.out.println("2,1 droite"); //droite
                                     balle.rebondX();
                                     tableauBrique[j][k].disappear();
                                 }
                                 else
                                 {
                                     balle.setPositionY(balle.getPositionY() + 5);
-                                    System.out.println("2,2 bas"); //bas
+                                    //System.out.println("2,2 bas"); //bas
                                     balle.rebondY();
                                     tableauBrique[j][k].disappear();
                                 }
@@ -181,14 +181,14 @@ public class CasseBrique extends Canvas {
                             {
                                 if (balle.getPositionY() + 10 < briquePositionY)
                                 {
-                                    System.out.println("3,1 haut");//haut
+                                    //System.out.println("3,1 haut");//haut
                                     balle.setPositionY(balle.getPositionY() - 5);
                                     balle.rebondY();
                                     tableauBrique[j][k].disappear();
                                 }
                                 else
                                 {
-                                    System.out.println("3,2 droite"); //droite
+                                    //System.out.println("3,2 droite"); //droite
                                     balle.setPositionX(balle.getPositionX() + 5);
                                     balle.rebondX();
                                     tableauBrique[j][k].disappear();
@@ -198,14 +198,14 @@ public class CasseBrique extends Canvas {
                             {
                                 if (balle.getPositionY() < 213 )
                                 {
-                                    System.out.println("4,1 gauche"); //gauche
+                                    //System.out.println("4,1 gauche"); //gauche
                                     balle.setPositionX(balle.getPositionX() - 5);
                                     balle.rebondX();
                                     tableauBrique[j][k].disappear();
                                 }
                                 else
                                 {
-                                    System.out.println("4,2 bas"); //bas
+                                    //System.out.println("4,2 bas"); //bas
                                     balle.setPositionY(balle.getPositionY() + 5);
                                     balle.rebondY();
                                     tableauBrique[j][k].disappear();
@@ -215,6 +215,12 @@ public class CasseBrique extends Canvas {
                                 System.out.println("?");
                             }
                             nombreBrique --;
+
+                            Random random = new Random();
+                            int value = random.nextInt(5) + 1;
+                            if (value == 1){
+                                bonus();
+                            }
 
                         }
                     }
@@ -233,7 +239,7 @@ public class CasseBrique extends Canvas {
                 if (balle.getPositionY()>590){
                     balle.disappear();
                     barre.disappear();
-                    System.out.println("win");
+                    System.out.println("loose");
                     JOptionPane.showMessageDialog(this,"LOOSER", "Résultat", JOptionPane.WARNING_MESSAGE);
                     System.exit(1);
                 }
@@ -243,6 +249,33 @@ public class CasseBrique extends Canvas {
             getBufferStrategy().show();
             Thread.sleep(1000 / 60);
         }
+    }
+
+    private void bonus() {
+        Random random = new Random();
+        int value = random.nextInt(3) + 1;
+
+        switch (value){
+            case 1: //mettre rangée
+                briquePositionY = briquePositionY -60;
+                rangeeHauteur= rangeeHauteur-1;
+                for (int j=0; j<rangeeLongueur; j++)
+                {
+                    m++;
+                    Color briqueCouleur = new  Color((float)Math.random(), (float)Math.random(), (float)Math.random());
+                    tableauBrique[j][rangeeHauteur].setCouleur(briqueCouleur);
+                }
+                System.out.println("ajout rangée " + rangeeHauteur);
+            case 2: //agrandissement barre
+                barre.setLargeur(barre.getLargeur() + 10);
+                System.out.println("barre agrandit");
+            case 3: //rétrécissement barre
+                barre.setLargeur(barre.getLargeur() - 10);
+                System.out.println("barre rétréci");
+        }
+
+
+
     }
 
     public static void main(String[] args) throws InterruptedException {
